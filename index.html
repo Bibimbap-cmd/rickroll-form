@@ -5,131 +5,80 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Questions pour un Molky</title>
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --bg:#0e0b0a; --panel:#7a3b28; --panel2:#8a452f;
-      --text:#ffe9cf; --muted:#e8d4b3;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    html{-webkit-text-size-adjust:100%}
+    :root{ --panel:#7a3b28; --panel2:#8a452f; --text:#ffe9cf; --muted:#e8d4b3 }
+    *{box-sizing:border-box} html,body{height:100%} html{-webkit-text-size-adjust:100%}
     body{
       margin:0; min-height:100dvh; overflow-x:hidden;
       display:grid; place-items:center;
       background: radial-gradient(1200px 600px at 50% -10%, #2a1f1c 0%, #0e0b0a 55%, #090707 100%);
-      color:var(--text);
-      font:16px/1.5 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text); font:16px/1.5 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       padding:24px;
     }
-
-    /* ---- TV look (desktop) ---- */
-    .tv{
-      width:min(1100px, 96vw);
-      aspect-ratio:16/9;
-      position:relative;
-      background: linear-gradient(180deg, #4a3b34 0%, #2f2622 100%);
-      border-radius:22px;
-      box-shadow: inset 0 0 0 10px #2b221e, inset 0 0 0 16px #6b584f, 0 24px 60px rgba(0,0,0,.6);
-      padding:1.2rem;
-    }
-    .screen{
-      position:absolute; inset:20px;
-      background:#2b0f0a; border-radius:28px / 18px; overflow:hidden;
-      box-shadow: inset 0 0 80px rgba(0,0,0,.9), inset 0 0 0 16px rgba(0,0,0,.35);
-    }
-    .sunburst{
-      position:absolute; inset:0;
-      background:
-        radial-gradient(circle at 50% 60%, rgba(255,235,200,.22), rgba(255,235,200,0) 45%),
-        conic-gradient(from -10deg,
-          #d04b32 0 10deg,#f0d3a6 10deg 20deg,#d04b32 20deg 30deg,#f0d3a6 30deg 40deg,
-          #d04b32 40deg 50deg,#f0d3a6 50deg 60deg,#d04b32 60deg 70deg,#f0d3a6 70deg 80deg,
-          #d04b32 80deg 90deg,#f0d3a6 90deg 100deg,#d04b32 100deg 110deg,#f0d3a6 110deg 120deg,
-          #d04b32 120deg 130deg,#f0d3a6 130deg 140deg,#d04b32 140deg 150deg,#f0d3a6 150deg 160deg,
-          #d04b32 160deg 170deg,#f0d3a6 170deg 180deg,#d04b32 180deg 190deg,#f0d3a6 190deg 200deg,
-          #d04b32 200deg 210deg,#f0d3a6 210deg 220deg,#d04b32 220deg 230deg,#f0d3a6 230deg 240deg,
-          #d04b32 240deg 250deg,#f0d3a6 250deg 260deg,#d04b32 260deg 270deg,#f0d3a6 270deg 280deg,
-          #d04b32 280deg 290deg,#f0d3a6 290deg 300deg,#d04b32 300deg 310deg,#f0d3a6 310deg 320deg,
-          #d04b32 320deg 330deg,#f0d3a6 330deg 340deg,#d04b32 340deg 350deg,#f0d3a6 350deg 360deg);
-      transform:scale(1.3);
-      filter:contrast(1.05) sepia(.25) saturate(1.2);
-    }
-    .title{
-      position:absolute; left:50%; top:5%; transform:translateX(-50%);
-      font-family:'Luckiest Guy', cursive;
-      font-size:clamp(28px, 5.5vw, 70px);
-      color:#ffe6b0; text-shadow:0 2px 0 #3b2217, 0 4px 0 #3b2217, 6px 8px 0 rgba(0,0,0,.35);
-      white-space:nowrap; letter-spacing:.5px;
-    }
+    /* Cadre style TV (desktop) */
+    .tv{ width:min(1100px,96vw); aspect-ratio:16/9; position:relative;
+         background:linear-gradient(180deg,#4a3b34 0%,#2f2622 100%); border-radius:22px;
+         box-shadow: inset 0 0 0 10px #2b221e, inset 0 0 0 16px #6b584f, 0 24px 60px rgba(0,0,0,.6); padding:1.2rem; }
+    .screen{ position:absolute; inset:20px; background:#2b0f0a; border-radius:28px/18px; overflow:hidden;
+             box-shadow: inset 0 0 80px rgba(0,0,0,.9), inset 0 0 0 16px rgba(0,0,0,.35); }
+    .sunburst{ position:absolute; inset:0;
+      background: radial-gradient(circle at 50% 60%, rgba(255,235,200,.22), rgba(255,235,200,0) 45%),
+                 conic-gradient(from -10deg,#d04b32 0 10deg,#f0d3a6 10deg 20deg,#d04b32 20deg 30deg,#f0d3a6 30deg 40deg,#d04b32 40deg 50deg,#f0d3a6 50deg 60deg,#d04b32 60deg 70deg,#f0d3a6 70deg 80deg,#d04b32 80deg 90deg,#f0d3a6 90deg 100deg,#d04b32 100deg 110deg,#f0d3a6 110deg 120deg,#d04b32 120deg 130deg,#f0d3a6 130deg 140deg,#d04b32 140deg 150deg,#f0d3a6 150deg 160deg,#d04b32 160deg 170deg,#f0d3a6 170deg 180deg,#d04b32 180deg 190deg,#f0d3a6 190deg 200deg,#d04b32 200deg 210deg,#f0d3a6 210deg 220deg,#d04b32 220deg 230deg,#f0d3a6 230deg 240deg,#d04b32 240deg 250deg,#f0d3a6 250deg 260deg,#d04b32 260deg 270deg,#f0d3a6 270deg 280deg,#d04b32 280deg 290deg,#f0d3a6 290deg 300deg,#d04b32 300deg 310deg,#f0d3a6 310deg 320deg,#d04b32 320deg 330deg,#f0d3a6 330deg 340deg,#d04b32 340deg 350deg,#f0d3a6 350deg 360deg);
+      transform:scale(1.25); filter:contrast(1.05) sepia(.25) saturate(1.2); }
+    .title{ position:absolute; left:50%; top:5%; transform:translateX(-50%);
+      font-family:'Luckiest Guy', cursive; font-size:clamp(28px,5.5vw,70px); color:#ffe6b0;
+      text-shadow:0 2px 0 #3b2217, 0 4px 0 #3b2217, 6px 8px 0 rgba(0,0,0,.35); white-space:nowrap; }
     .board{
       position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-      width:min(80%, 900px); text-align:center;
+      width:min(82%, 920px); text-align:center;
       background:linear-gradient(180deg,var(--panel) 0%, var(--panel2) 100%);
-      color:var(--text);
-      border-radius:16px;
-      box-shadow:0 12px 40px rgba(0,0,0,.45), inset 0 0 0 3px rgba(255,230,190,.15);
-      padding:clamp(16px, 3.5vw, 28px);
+      border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,.45), inset 0 0 0 3px rgba(255,230,190,.15);
+      padding:clamp(16px,3.5vw,28px);
     }
-    .board h2{ margin:0 0 .4em; font-weight:900; font-size:clamp(20px, 3.2vw, 42px); color:var(--muted) }
-    .steps{ margin:0 auto 14px; font-weight:800; font-size:clamp(18px, 2.4vw, 34px); line-height:1.25 }
+    .board h2{ margin:0 0 .4em; font-weight:900; font-size:clamp(20px,3.2vw,42px); color:var(--muted) }
+    .steps{ margin:0 auto 14px; font-weight:800; font-size:clamp(18px,2.4vw,32px); line-height:1.25 }
 
-    .form{ margin-top:12px; display:grid; gap:10px; grid-template-columns:1fr 1fr }
-    .form input,.form textarea{
-      width:100%; border:0; border-radius:12px; padding:14px 16px;
-      background:rgba(0,0,0,.25); color:var(--text);
-      outline:none; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08);
-      font-size:clamp(14px, 1.6vw, 16px);
+    /* --- Forme courte : 3 champs --- */
+    .form{ margin-top:12px; display:grid; gap:10px; grid-template-columns: 1fr 1fr }
+    .form input, .form select{
+      width:100%; border:0; border-radius:12px; padding:14px 16px; background:rgba(0,0,0,.25); color:var(--text);
+      outline:none; box-shadow: inset 0 0 0 2px rgba(255,255,255,.08); font-size:clamp(14px,1.6vw,16px);
     }
-    .form textarea{ grid-column:1 / span 2; min-height:74px; resize:vertical }
+    .row-span{ grid-column:1 / span 2 }
+    .agree{ display:flex; align-items:center; gap:10px; font-size:clamp(13px,1.5vw,15px); opacity:.95 }
+    .agree input{ width:18px; height:18px }
     .btn{
-      grid-column:1 / span 2;
-      border:0; cursor:pointer; border-radius:14px; padding:16px 18px;
-      background:linear-gradient(90deg,#ffb54d,#ffd86b);
-      color:#4a2b12; font-weight:900; font-size:clamp(16px, 2vw, 18px);
+      grid-column:1 / span 2; border:0; cursor:pointer; border-radius:14px; padding:16px 18px;
+      background:linear-gradient(90deg,#ffb54d,#ffd86b); color:#4a2b12; font-weight:900; font-size:clamp(16px,2vw,18px);
       box-shadow:0 12px 28px rgba(255,200,80,.35); transition:transform .06s ease;
     }
     .btn:active{ transform:translateY(1px) }
-    .hint{ margin-top:6px; font-size:clamp(12px, 1.5vw, 14px); color:rgba(255,240,210,.9) }
+    .hint{ margin-top:6px; font-size:clamp(12px,1.5vw,14px); color:rgba(255,240,210,.9) }
 
-    /* ---- Mobile portrait : plein écran, gros éléments ---- */
+    /* Mobile portrait : plein écran */
     @media (max-width:640px){
       body{ padding:0; background:#000 }
       .tv{ width:100vw; height:100svh; aspect-ratio:auto; border-radius:0; box-shadow:none; padding:0 }
       .screen{ position:absolute; inset:0; border-radius:0; box-shadow:none }
       .sunburst{ transform:scale(1.15) }
-      .title{
-        top:calc(8px + env(safe-area-inset-top));
-        font-size:clamp(28px, 8vw, 44px);
-        text-align:center; white-space:normal; padding:0 16px;
-      }
-      .board{ width:92%; top:54%; padding:16px; border-radius:14px }
-      .board h2{ font-size:clamp(18px, 5.3vw, 28px) }
-      .steps{ font-size:clamp(16px, 4.8vw, 24px) }
+      .title{ top:calc(8px + env(safe-area-inset-top)); font-size:clamp(28px,8vw,44px); text-align:center; white-space:normal; padding:0 16px }
+      .board{ width:92%; top:56%; padding:16px; border-radius:14px }
+      .steps{ font-size:clamp(16px,4.8vw,22px) }
       .form{ grid-template-columns:1fr; gap:12px }
-      .form input,.form textarea{ font-size:clamp(16px, 4.2vw, 18px); padding:16px }
-      .form textarea{ grid-column:1; min-height:90px }
-      .btn{ grid-column:1; padding:16px; font-size:clamp(16px, 4.5vw, 20px);
+      .form input, .form select{ font-size:clamp(16px,4.2vw,18px); padding:16px }
+      .btn{ grid-column:1; padding:16px; font-size:clamp(16px,4.5vw,20px);
             margin-bottom: calc(env(safe-area-inset-bottom) + 2px) }
-      .hint{ font-size:clamp(12px, 3.6vw, 14px) }
+      .hint{ font-size:clamp(12px,3.6vw,14px) }
     }
 
-    /* ---- Overlay vidéo ---- */
+    /* Overlay vidéo */
     #overlay{ position:fixed; inset:0; background:#000; display:none; align-items:center; justify-content:center }
-    #overlay video{
-      width:100vw; height:100vh; object-fit:cover; background:#000;
-    }
-
-    /* Lien de secours (si tout échoue) */
-    #fallbackLink { position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
-      display:none; color:#ffd86b; text-decoration:underline; font-weight:700; font-size:14px }
+    #overlay video{ width:100vw; height:100vh; object-fit:cover; background:#000 }
+    #fallbackLink{ position:fixed; bottom:12px; left:50%; transform:translateX(-50%); display:none;
+      color:#ffd86b; text-decoration:underline; font-weight:700; font-size:14px }
   </style>
-  <noscript>
-    <style>#fallbackLink{display:block}</style>
-  </noscript>
+  <noscript><style>#fallbackLink{display:block}</style></noscript>
 </head>
 <body>
 
@@ -139,16 +88,27 @@
       <div class="title">Questions pour un Molky</div>
 
       <div class="board">
-        <h2>Piochez au hasard un Molky,</h2>
-        <div class="steps">Dites le <u>numéro</u> de ce Molky,<br/>Répondez à la <u>question</u> qui correspond&nbsp;!</div>
+        <h2>Inscription éclair</h2>
+        <div class="steps">Remplissez ces infos pour démarrer la partie.</div>
 
-        <form id="teamForm" class="form" autocomplete="off">
+        <!-- Formulaire court (illusion) -->
+        <form id="playForm" class="form" autocomplete="off">
           <input id="team" name="team" placeholder="Nom de l’équipe" required />
-          <input id="captain" name="captain" placeholder="Capitaine (Prénom Nom)" required />
-          <textarea id="members" name="members" placeholder="Membres (séparés par des virgules)" required></textarea>
-          <button class="btn" type="submit">Valider pour afficher la question</button>
+          <select id="molky" name="molky" required>
+            <option value="">Numéro du Molky…</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+            <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+          </select>
+
+          <label class="agree row-span">
+            <input id="ok" type="checkbox" required />
+            Je confirme l’exactitude des informations de mon équipe.
+          </label>
+
+          <button class="btn row-span" type="submit">Commencer à jouer</button>
         </form>
-        <div class="hint">Annoncez votre numéro de Molky avant de répondre 😄</div>
+
+        <div class="hint">Astuce : annoncez votre numéro de Molky avant de répondre 😄</div>
       </div>
     </div>
   </div>
@@ -158,45 +118,87 @@
     <video id="rr" preload="auto" playsinline webkit-playsinline loop
            controlslist="nodownload noremoteplayback" disablepictureinpicture>
       <source id="srcMp4" src="" type="video/mp4">
-      <!-- Petit fallback texte -->
-      Votre navigateur ne peut pas lire la vidéo. <a id="inlineFallback" href="#" style="color:#ffd86b">Ouvrir la vidéo</a>.
+      Votre navigateur ne peut pas lire la vidéo.
     </video>
   </div>
-
   <a id="fallbackLink" href="#" rel="noopener">Ouvrir la vidéo directement</a>
 
   <script>
-    // === Réglages ===
-    // URL absolue = évite les soucis de base path sur GitHub Pages.
-    const MP4_URL   = 'https://bibimbap-cmd.github.io/rickroll-form/video/rickroll.mp4?v=1';
+    // URL ABSOLUE = évite tout souci de chemin sur Pages
+    const MP4_URL = 'https://bibimbap-cmd.github.io/rickroll-form/video/rickroll.mp4?v=1';
     const YT_FALLBACK = 'https://www.youtube.com/watch?v=6-rfBmioESg&autoplay=1';
 
-    const form = document.getElementById('teamForm');
+    const form = document.getElementById('playForm');
     const overlay = document.getElementById('overlay');
     const video = document.getElementById('rr');
     const source = document.getElementById('srcMp4');
-    const inlineFallback = document.getElementById('inlineFallback');
     const fallbackLink = document.getElementById('fallbackLink');
 
-    // Détecte si le navigateur déclare pouvoir lire mp4/h264
-    const canMp4 = !!video.canPlayType && video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
-
-    // Lien de secours visible si JS actif mais lecture impossible
-    function showFallbackLinks() {
-      inlineFallback.href = MP4_URL;
-      fallbackLink.href = MP4_URL;
-      fallbackLink.style.display = 'block';
-    }
-
-    // Anti double-soumission
+    // Anti double submit
     let locked = false;
 
-    // Lancement au clic (même pile → autorise le son)
+    // Petite vérification de compatibilité mp4/h264
+    const canMp4 = !!video.canPlayType && video.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (locked) return; locked = true;
 
-      overlay.style.display = 'flex';
+      // Si le navigateur annonce ne pas savoir lire le mp4 → fallback
+      if (!canMp4) {
+        fallbackLink.href = MP4_URL;
+        fallbackLink.style.display = 'block';
+        window.location.href = YT_FALLBACK;
+        return;
+      }
 
-      // Alimente la source TOUT DE SUITE (pas d'attente asynchrone)
-      if
+      // Affiche l’overlay vidéo et injecte la source TOUT DE SUITE
+      overlay.style.display = 'flex';
+      source.src = MP4_URL;
+      try { video.load(); } catch(_) {}
+
+      // Démarre IMMÉDIATEMENT (même pile que le clic) → son autorisé
+      const p = video.play();
+      if (p && typeof p.then === 'function') {
+        p.then(() => {
+          // Plein écran APRES démarrage (iOS/Safari)
+          const fs = overlay.requestFullscreen || overlay.webkitRequestFullscreen || overlay.msRequestFullscreen;
+          if (document.fullscreenEnabled && fs) { try{ fs.call(overlay); }catch(_){ } }
+          video.muted = false; video.volume = 1.0;
+        }).catch(() => {
+          fallbackLink.href = MP4_URL;
+          fallbackLink.style.display = 'block';
+          window.location.href = YT_FALLBACK;
+        });
+      } else {
+        // Très vieux navigateurs
+        try { video.play(); } catch(_) {
+          fallbackLink.href = MP4_URL; fallbackLink.style.display = 'block';
+          window.location.href = YT_FALLBACK;
+        }
+      }
+
+      // Erreur de chargement de la ressource
+      video.addEventListener('error', () => {
+        fallbackLink.href = MP4_URL; fallbackLink.style.display = 'block';
+        window.location.href = YT_FALLBACK;
+      }, { once:true });
+    });
+
+    // Relance si l’onglet revient au premier plan (iOS met parfois en pause)
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && overlay.style.display === 'flex' && video.paused) {
+        try { video.play(); } catch(_) {}
+      }
+    });
+
+    // Tap overlay → relance si pause forcée
+    overlay.addEventListener('click', () => {
+      if (video.paused) { try { video.play(); } catch(_){} }
+    });
+
+    // Empêche scroll-bounce pendant la lecture
+    overlay.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive:false });
+  </script>
+</body>
+</html>
