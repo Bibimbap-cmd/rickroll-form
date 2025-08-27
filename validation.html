@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Validation des informations d’équipe</title>
+  <style>
+    :root { --bg:#0f172a; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; }
+    html,body{height:100%}
+    body{margin:0; background:linear-gradient(120deg,#0b1224 0%,#0f172a 100%); color:var(--text); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+    .wrap{min-height:100%; display:grid; place-items:center; padding:24px}
+    .card{width:100%; max-width:620px; background:rgba(17,24,39,.85); border:1px solid rgba(255,255,255,.06);
+          border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,.5); padding:28px}
+    h1{margin:0 0 6px; font-size:1.4rem}
+    p.sub{margin:0 0 16px; color:var(--muted); font-size:.95rem}
+    .row{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
+    label{display:block; font-weight:600; margin:12px 0 6px}
+    input,textarea,select{width:100%; padding:12px 14px; border:1px solid rgba(255,255,255,.08);
+      background:#0b1020; color:var(--text); border-radius:12px; outline:none}
+    textarea{min-height:100px; resize:vertical}
+    button{width:100%; margin-top:16px; padding:14px 18px; border:0; border-radius:12px; cursor:pointer;
+      background:linear-gradient(90deg,#10b981,#22c55e); color:#00140c; font-weight:800; font-size:1rem;
+      box-shadow:0 10px 24px rgba(16,185,129,.35); transition:transform .06s ease}
+    button:active{transform:translateY(1px)}
+    .muted{color:var(--muted); font-size:.85rem; margin-top:10px}
+    .status{display:flex; align-items:center; gap:8px; margin-top:12px; color:var(--muted); font-size:.95rem}
+    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.15); border-top-color:#fff; border-radius:50%;
+      animation:spin .9s linear infinite; display:none}
+    .status.active .spinner{display:inline-block}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Overlay plein écran */
+    #overlay{position:fixed; inset:0; background:#000; display:none; align-items:center; justify-content:center}
+    #player{width:100vw; height:100vh; border:0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Validation des informations d’équipe</h1>
+      <p class="sub">Merci de renseigner les champs ci-dessous puis de valider pour finaliser l’inscription.</p>
+
+      <form id="teamForm" autocomplete="off">
+        <label for="team">Nom de l’équipe</label>
+        <input id="team" name="team" placeholder="Ex. Blue Falcons" required />
+
+        <div class="row">
+          <div>
+            <label for="captain">Capitaine</label>
+            <input id="captain" name="captain" placeholder="Prénom Nom" required />
+          </div>
+          <div>
+            <label for="email">Email de contact</label>
+            <input id="email" name="email" type="email" placeholder="prenom.nom@exemple.com" required />
+          </div>
+        </div>
+
+        <label for="members">Membres (séparés par des virgules)</label>
+        <textarea id="members" name="members" placeholder="Nom 1, Nom 2, Nom 3..." required></textarea>
+
+        <button id="submitBtn" type="submit">Valider les informations d’équipe</button>
+
+        <div id="status" class="status">
+          <div class="spinner" aria-hidden="true"></div>
+          <span>Envoi en cours…</span>
+        </div>
+        <p class="muted">Les informations saisies sont utilisées uniquement pour l’organisation interne de l’atelier.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Overlay vidéo -->
+  <div id="overlay" role="dialog" aria-label="Lecture vidéo">
+    <iframe id="player"
+            title="Rick Roll"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+  <script>
+    // ID extrait de ton lien Shorts
+    const YT_ID = '6-rfBmioESg';
+    // URL embed avec options (autoplay + lecture inline)
+    const EMBED_URL = `https://www.youtube.com/embed/${YT_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`;
+    // Fallback vers la page YouTube (au cas où l’autoplay/son est bloqué)
+    const WATCH_URL = `https://www.youtube.com/watch?v=${YT_ID}&autoplay=1`;
+
+    const form = document.getElementById('teamForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusEl = document.getElementById('status');
+    const overlay = document.getElementById('overlay');
+    const iframe = document.getElementById('player');
+
+    // IFrame API
+    let ytPlayer, apiReady = false;
+    window.onYouTubeIframeAPIReady = () => { apiReady = true; };
+
+    (function addYTApi(){
+      const s = document.createElement('script');
+      s.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(s);
+    })();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      statusEl.classList.add('active');
+
+      // Petit délai “traitement”
+      await new Promise(r => setTimeout(r, 800));
+
+      // Affiche l’overlay et prépare le player
+      overlay.style.display = 'flex';
+      iframe.src = EMBED_URL;
+
+      // Tente le plein écran (peut être ignoré selon navigateur)
+      if (document.fullscreenEnabled && overlay.requestFullscreen) {
+        overlay.requestFullscreen().catch(()=>{});
+      }
+
+      // Instancie le player et essaye d’activer le son à fond
+      const initPlayer = () => {
+        if (ytPlayer) return;
+        if (!apiReady || !window.YT || !window.YT.Player) {
+          // Si l’API n’est pas prête, ré-essaie un court instant
+          return setTimeout(initPlayer, 100);
+        }
+        ytPlayer = new YT.Player('player', {
+          events: {
+            onReady: (ev) => {
+              try {
+                ev.target.playVideo();
+                ev.target.unMute();
+                ev.target.setVolume(100);
+              } catch (err) {
+                // Si le navigateur bloque le son, on laisse jouer (muet) puis fallback
+                setTimeout(()=>{ if (ev.target.getPlayerState() !== 1) window.location.href = WATCH_URL; }, 500);
+              }
+            },
+            onError: () => {
+              window.location.href = WATCH_URL;
+            }
+          }
+        });
+      };
+      initPlayer();
+
+      // Fallback dur si rien ne s’affiche après 2 secondes
+      setTimeout(() => {
+        if (!iframe.src) window.location.href = WATCH_URL;
+      }, 2000);
+    });
+
+    // Clic sur l’overlay → tente de relancer la lecture (si bloquée)
+    overlay.addEventListener('click', () => {
+      try {
+        if (ytPlayer && ytPlayer.playVideo) {
+          ytPlayer.playVideo();
+          ytPlayer.unMute();
+          ytPlayer.setVolume(100);
+        }
+      } catch(e){}
+    });
+  </script>
+</body>
+</html>
