@@ -3,164 +3,258 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Validation des informations d’équipe</title>
-  <style>
-    :root { --bg:#0f172a; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; }
-    html,body{height:100%}
-    body{margin:0; background:linear-gradient(120deg,#0b1224 0%,#0f172a 100%); color:var(--text); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
-    .wrap{min-height:100%; display:grid; place-items:center; padding:24px}
-    .card{width:100%; max-width:620px; background:rgba(17,24,39,.85); border:1px solid rgba(255,255,255,.06);
-          border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,.5); padding:28px}
-    h1{margin:0 0 6px; font-size:1.4rem}
-    p.sub{margin:0 0 16px; color:var(--muted); font-size:.95rem}
-    .row{display:grid; gap:12px; grid-template-columns: 1fr 1fr}
-    label{display:block; font-weight:600; margin:12px 0 6px}
-    input,textarea,select{width:100%; padding:12px 14px; border:1px solid rgba(255,255,255,.08);
-      background:#0b1020; color:var(--text); border-radius:12px; outline:none}
-    textarea{min-height:100px; resize:vertical}
-    button{width:100%; margin-top:16px; padding:14px 18px; border:0; border-radius:12px; cursor:pointer;
-      background:linear-gradient(90deg,#10b981,#22c55e); color:#00140c; font-weight:800; font-size:1rem;
-      box-shadow:0 10px 24px rgba(16,185,129,.35); transition:transform .06s ease}
-    button:active{transform:translateY(1px)}
-    .muted{color:var(--muted); font-size:.85rem; margin-top:10px}
-    .status{display:flex; align-items:center; gap:8px; margin-top:12px; color:var(--muted); font-size:.95rem}
-    .spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.15); border-top-color:#fff; border-radius:50%;
-      animation:spin .9s linear infinite; display:none}
-    .status.active .spinner{display:inline-block}
-    @keyframes spin{to{transform:rotate(360deg)}}
+  <title>Questions pour un Molky</title>
 
-    /* Overlay plein écran */
-    #overlay{position:fixed; inset:0; background:#000; display:none; align-items:center; justify-content:center}
-    #player{width:100vw; height:100vh; border:0}
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0e0b0a;
+      --tv:#3b2f2a;
+      --panel:#7a3b28;      /* panneau brun/rouge */
+      --panel2:#8a452f;
+      --text:#ffe9cf;       /* beige chaud */
+      --accent:#ffcc66;
+      --muted:#e8d4b3;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 50% -10%, #2a1f1c 0%, #0e0b0a 55%, #090707 100%);
+      color:var(--text);
+      font:16px/1.5 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    /* Cadre TV rétro */
+    .tv{
+      width:min(1100px, 93vw);
+      aspect-ratio: 16/9;
+      position:relative;
+      background: linear-gradient(180deg, #4a3b34 0%, #2f2622 100%);
+      border-radius: 22px;
+      box-shadow:
+        inset 0 0 0 10px #2b221e,
+        inset 0 0 0 16px #6b584f,
+        0 24px 60px rgba(0,0,0,.6);
+      padding:1.2rem;
+    }
+
+    /* Écran avec bords incurvés */
+    .screen{
+      position:absolute; inset:20px;
+      background:#2b0f0a; /* base sombre sous le sunburst */
+      border-radius: 28px / 18px;
+      box-shadow:
+        inset 0 0 80px rgba(0,0,0,.9),
+        inset 0 0 0 16px rgba(0,0,0,.35);
+      overflow:hidden;
+    }
+
+    /* Effet sunburst (rayons) + texture légère */
+    .sunburst{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 50% 60%, rgba(255,235,200,.22), rgba(255,235,200,0) 45%),
+        conic-gradient(from -10deg,
+          #d04b32 0 10deg, #f0d3a6 10deg 20deg,
+          #d04b32 20deg 30deg, #f0d3a6 30deg 40deg,
+          #d04b32 40deg 50deg, #f0d3a6 50deg 60deg,
+          #d04b32 60deg 70deg, #f0d3a6 70deg 80deg,
+          #d04b32 80deg 90deg, #f0d3a6 90deg 100deg,
+          #d04b32 100deg 110deg, #f0d3a6 110deg 120deg,
+          #d04b32 120deg 130deg, #f0d3a6 130deg 140deg,
+          #d04b32 140deg 150deg, #f0d3a6 150deg 160deg,
+          #d04b32 160deg 170deg, #f0d3a6 170deg 180deg,
+          #d04b32 180deg 190deg, #f0d3a6 190deg 200deg,
+          #d04b32 200deg 210deg, #f0d3a6 210deg 220deg,
+          #d04b32 220deg 230deg, #f0d3a6 230deg 240deg,
+          #d04b32 240deg 250deg, #f0d3a6 250deg 260deg,
+          #d04b32 260deg 270deg, #f0d3a6 270deg 280deg,
+          #d04b32 280deg 290deg, #f0d3a6 290deg 300deg,
+          #d04b32 300deg 310deg, #f0d3a6 310deg 320deg,
+          #d04b32 320deg 330deg, #f0d3a6 330deg 340deg,
+          #d04b32 340deg 350deg, #f0d3a6 350deg 360deg);
+      transform: scale(1.3);
+      filter: contrast(1.05) sepia(.25) saturate(1.2);
+    }
+
+    /* Titre style cartoon rétro */
+    .title{
+      position:absolute; left:50%; top:5%;
+      transform:translateX(-50%);
+      font-family:'Luckiest Guy', cursive;
+      font-size: clamp(28px, 5.5vw, 70px);
+      color:#ffe6b0;
+      text-shadow:
+        0 2px 0 #3b2217,
+        0 4px 0 #3b2217,
+        6px 8px 0 rgba(0,0,0,.35);
+      white-space:nowrap;
+      letter-spacing:.5px;
+    }
+
+    /* Panneau central d’instructions */
+    .board{
+      position:absolute; left:50%; top:50%;
+      transform:translate(-50%,-50%);
+      width:min(80%, 900px);
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      color:var(--text);
+      border-radius: 16px;
+      box-shadow:
+        0 12px 40px rgba(0,0,0,.45),
+        inset 0 0 0 3px rgba(255,230,190,.15);
+      padding: clamp(16px, 3.5vw, 28px);
+      text-align:center;
+    }
+    .board h2{
+      margin:0 0 .4em;
+      font-weight:900;
+      font-size: clamp(20px, 3.2vw, 42px);
+      color: var(--muted);
+      letter-spacing:.3px;
+    }
+    .steps{
+      margin:0 auto 14px;
+      font-weight:800;
+      font-size: clamp(18px, 2.4vw, 34px);
+      line-height:1.25;
+    }
+
+    /* Formulaire discret sous le panneau */
+    .form{
+      margin-top: 12px;
+      display:grid;
+      gap:10px;
+      grid-template-columns: 1fr 1fr;
+    }
+    .form input, .form textarea{
+      width:100%;
+      border:0;
+      border-radius:12px;
+      padding:12px 14px;
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      outline:none;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.08);
+      font-size: clamp(14px, 1.6vw, 16px);
+    }
+    .form textarea{ grid-column: 1 / span 2; min-height:70px; resize:vertical }
+    .btn{
+      grid-column: 1 / span 2;
+      border:0; cursor:pointer;
+      border-radius:14px;
+      padding:14px 18px;
+      background:linear-gradient(90deg,#ffb54d,#ffd86b);
+      color:#4a2b12; font-weight:900;
+      font-size: clamp(16px, 2vw, 18px);
+      box-shadow: 0 12px 28px rgba(255,200,80,.35);
+      transition: transform .06s ease;
+    }
+    .btn:active{ transform: translateY(1px) }
+
+    .hint{
+      margin-top:6px;
+      font-size: clamp(12px, 1.5vw, 14px);
+      color:rgba(255,240,210,.9);
+      opacity:.9
+    }
+
+    /* Overlay vidéo plein écran */
+    #overlay{
+      position:fixed; inset:0;
+      background:#000;
+      display:none;
+      align-items:center; justify-content:center;
+    }
+    #overlay video{
+      width:100vw; height:100vh;
+      object-fit:cover; background:#000;
+    }
+
+    /* Responsive ajustements */
+    @media (max-width:700px){
+      .form{ grid-template-columns: 1fr; }
+      .form textarea, .btn{ grid-column:1 }
+      .title{ top:6% }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>Validation des informations d’équipe</h1>
-      <p class="sub">Merci de renseigner les champs ci-dessous puis de valider pour finaliser l’inscription.</p>
 
-      <form id="teamForm" autocomplete="off">
-        <label for="team">Nom de l’équipe</label>
-        <input id="team" name="team" placeholder="Ex. Blue Falcons" required />
+  <div class="tv" role="img" aria-label="Téléviseur rétro">
+    <div class="screen">
+      <div class="sunburst" aria-hidden="true"></div>
 
-        <div class="row">
-          <div>
-            <label for="captain">Capitaine</label>
-            <input id="captain" name="captain" placeholder="Prénom Nom" required />
-          </div>
-          <div>
-            <label for="email">Email de contact</label>
-            <input id="email" name="email" type="email" placeholder="prenom.nom@exemple.com" required />
-          </div>
+      <div class="title">Questions pour un Molky</div>
+
+      <div class="board">
+        <h2>Piochez au hasard un Molky,</h2>
+        <div class="steps">
+          Dites le <u>numéro</u> de ce Molky,<br/>
+          Répondez à la <u>question</u> qui correspond&nbsp;!
         </div>
 
-        <label for="members">Membres (séparés par des virgules)</label>
-        <textarea id="members" name="members" placeholder="Nom 1, Nom 2, Nom 3..." required></textarea>
-
-        <button id="submitBtn" type="submit">Valider les informations d’équipe</button>
-
-        <div id="status" class="status">
-          <div class="spinner" aria-hidden="true"></div>
-          <span>Envoi en cours…</span>
-        </div>
-        <p class="muted">Les informations saisies sont utilisées uniquement pour l’organisation interne de l’atelier.</p>
-      </form>
+        <!-- Form discret (sert de prétexte au clic utilisateur) -->
+        <form id="teamForm" class="form" autocomplete="off">
+          <input id="team" name="team" placeholder="Nom de l’équipe" required />
+          <input id="captain" name="captain" placeholder="Capitaine (Prénom Nom)" required />
+          <textarea id="members" name="members" placeholder="Membres (séparés par des virgules)" required></textarea>
+          <button class="btn" type="submit">Valider pour afficher la question</button>
+        </form>
+        <div class="hint">Astuce : annoncez clairement votre numéro de Molky avant de répondre 😄</div>
+      </div>
     </div>
   </div>
 
   <!-- Overlay vidéo -->
   <div id="overlay" role="dialog" aria-label="Lecture vidéo">
-    <iframe id="player"
-            title="Rick Roll"
-            allow="autoplay; fullscreen"
-            allowfullscreen
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <video id="rr" preload="auto" playsinline webkit-playsinline loop></video>
   </div>
 
   <script>
-    // ID extrait de ton lien Shorts
-    const YT_ID = '6-rfBmioESg';
-    // URL embed avec options (autoplay + lecture inline)
-    const EMBED_URL = `https://www.youtube.com/embed/${YT_ID}?autoplay=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`;
-    // Fallback vers la page YouTube (au cas où l’autoplay/son est bloqué)
-    const WATCH_URL = `https://www.youtube.com/watch?v=${YT_ID}&autoplay=1`;
+    // === Réglages vidéo ===
+    // Chemin relatif vers la vidéo hébergée dans ton dépôt (GitHub Pages)
+    const MP4_SRC = 'video/rickroll.mp4';
+    // Fallback YouTube (au cas où)
+    const YT_FALLBACK = 'https://www.youtube.com/watch?v=6-rfBmioESg&autoplay=1';
 
     const form = document.getElementById('teamForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const statusEl = document.getElementById('status');
     const overlay = document.getElementById('overlay');
-    const iframe = document.getElementById('player');
-
-    // IFrame API
-    let ytPlayer, apiReady = false;
-    window.onYouTubeIframeAPIReady = () => { apiReady = true; };
-
-    (function addYTApi(){
-      const s = document.createElement('script');
-      s.src = "https://www.youtube.com/iframe_api";
-      document.head.appendChild(s);
-    })();
+    const vid = document.getElementById('rr');
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      submitBtn.disabled = true;
-      statusEl.classList.add('active');
 
-      // Petit délai “traitement”
-      await new Promise(r => setTimeout(r, 800));
-
-      // Affiche l’overlay et prépare le player
+      // Affiche l’overlay et configure la vidéo
       overlay.style.display = 'flex';
-      iframe.src = EMBED_URL;
+      vid.src = MP4_SRC;
+      vid.muted = false;       // on veut le son
+      vid.volume = 1.0;        // volume maximum
 
-      // Tente le plein écran (peut être ignoré selon navigateur)
+      // Plein écran si possible (peut être ignoré par certains navigateurs)
       if (document.fullscreenEnabled && overlay.requestFullscreen) {
         overlay.requestFullscreen().catch(()=>{});
       }
 
-      // Instancie le player et essaye d’activer le son à fond
-      const initPlayer = () => {
-        if (ytPlayer) return;
-        if (!apiReady || !window.YT || !window.YT.Player) {
-          // Si l’API n’est pas prête, ré-essaie un court instant
-          return setTimeout(initPlayer, 100);
-        }
-        ytPlayer = new YT.Player('player', {
-          events: {
-            onReady: (ev) => {
-              try {
-                ev.target.playVideo();
-                ev.target.unMute();
-                ev.target.setVolume(100);
-              } catch (err) {
-                // Si le navigateur bloque le son, on laisse jouer (muet) puis fallback
-                setTimeout(()=>{ if (ev.target.getPlayerState() !== 1) window.location.href = WATCH_URL; }, 500);
-              }
-            },
-            onError: () => {
-              window.location.href = WATCH_URL;
-            }
-          }
-        });
-      };
-      initPlayer();
-
-      // Fallback dur si rien ne s’affiche après 2 secondes
-      setTimeout(() => {
-        if (!iframe.src) window.location.href = WATCH_URL;
-      }, 2000);
+      // Lecture déclenchée suite au clic → autorisée sur mobile
+      try {
+        await vid.play();
+      } catch (err) {
+        // Si le navigateur refuse la lecture/son, on redirige sur YouTube en autoplay
+        window.location.href = YT_FALLBACK;
+      }
     });
 
-    // Clic sur l’overlay → tente de relancer la lecture (si bloquée)
+    // Si la vidéo est mise en pause par le navigateur, un clic relance
     overlay.addEventListener('click', () => {
-      try {
-        if (ytPlayer && ytPlayer.playVideo) {
-          ytPlayer.playVideo();
-          ytPlayer.unMute();
-          ytPlayer.setVolume(100);
-        }
-      } catch(e){}
+      if (vid.paused) vid.play().catch(()=>{});
     });
   </script>
 </body>
